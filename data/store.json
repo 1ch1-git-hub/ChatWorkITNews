@@ -1,0 +1,722 @@
+{
+  "schedules": [
+    {
+      "id": 1,
+      "day_of_week": 1,
+      "hour": 9,
+      "minute": 0,
+      "name": "月曜：リーダーシップ"
+    },
+    {
+      "id": 2,
+      "day_of_week": 2,
+      "hour": 9,
+      "minute": 0,
+      "name": "火曜：サイバー攻撃・セキュリティ"
+    },
+    {
+      "id": 3,
+      "day_of_week": 3,
+      "hour": 9,
+      "minute": 0,
+      "name": "水曜：組織・チーム"
+    },
+    {
+      "id": 4,
+      "day_of_week": 4,
+      "hour": 9,
+      "minute": 0,
+      "name": "木曜：AI・技術トレンド"
+    },
+    {
+      "id": 5,
+      "day_of_week": 5,
+      "hour": 9,
+      "minute": 0,
+      "name": "金曜：生産性・働き方"
+    }
+  ],
+  "keywords": [
+    {
+      "id": 1,
+      "keyword": "リーダーシップ",
+      "genre": "その他"
+    },
+    {
+      "id": 2,
+      "keyword": "サイバー攻撃",
+      "genre": "その他"
+    },
+    {
+      "id": 3,
+      "keyword": "組織 チーム",
+      "genre": "その他"
+    },
+    {
+      "id": 4,
+      "keyword": "AI",
+      "genre": "その他"
+    },
+    {
+      "id": 5,
+      "keyword": "生産性 働き方",
+      "genre": "その他"
+    },
+    {
+      "id": 6,
+      "keyword": "人工知能",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 7,
+      "keyword": "機械学習",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 8,
+      "keyword": "ディープラーニング",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 9,
+      "keyword": "生成AI",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 10,
+      "keyword": "ChatGPT",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 11,
+      "keyword": "LLM",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 12,
+      "keyword": "クラウド",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 13,
+      "keyword": "AWS",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 14,
+      "keyword": "GCP",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 15,
+      "keyword": "Azure",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 16,
+      "keyword": "DX",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 17,
+      "keyword": "デジタル変革",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 18,
+      "keyword": "プログラミング",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 19,
+      "keyword": "開発",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 20,
+      "keyword": "インフラ",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 21,
+      "keyword": "データベース",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 22,
+      "keyword": "API",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 23,
+      "keyword": "オープンソース",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 24,
+      "keyword": "フロントエンド",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 25,
+      "keyword": "バックエンド",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 26,
+      "keyword": "DevOps",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 27,
+      "keyword": "コンテナ",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 28,
+      "keyword": "Kubernetes",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 29,
+      "keyword": "マイクロサービス",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 30,
+      "keyword": "IoT",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 31,
+      "keyword": "5G",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 32,
+      "keyword": "エッジコンピューティング",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 33,
+      "keyword": "ブロックチェーン",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 34,
+      "keyword": "Web3",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 35,
+      "keyword": "RPA",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 36,
+      "keyword": "ノーコード",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 37,
+      "keyword": "ローコード",
+      "genre": "技術・AI"
+    },
+    {
+      "id": 38,
+      "keyword": "セキュリティ",
+      "genre": "セキュリティ"
+    },
+    {
+      "id": 39,
+      "keyword": "情報漏洩",
+      "genre": "セキュリティ"
+    },
+    {
+      "id": 40,
+      "keyword": "ランサムウェア",
+      "genre": "セキュリティ"
+    },
+    {
+      "id": 41,
+      "keyword": "マルウェア",
+      "genre": "セキュリティ"
+    },
+    {
+      "id": 42,
+      "keyword": "脆弱性",
+      "genre": "セキュリティ"
+    },
+    {
+      "id": 43,
+      "keyword": "認証",
+      "genre": "セキュリティ"
+    },
+    {
+      "id": 44,
+      "keyword": "多要素認証",
+      "genre": "セキュリティ"
+    },
+    {
+      "id": 45,
+      "keyword": "ゼロトラスト",
+      "genre": "セキュリティ"
+    },
+    {
+      "id": 46,
+      "keyword": "ファイアウォール",
+      "genre": "セキュリティ"
+    },
+    {
+      "id": 47,
+      "keyword": "暗号化",
+      "genre": "セキュリティ"
+    },
+    {
+      "id": 48,
+      "keyword": "脅威",
+      "genre": "セキュリティ"
+    },
+    {
+      "id": 49,
+      "keyword": "インシデント対応",
+      "genre": "セキュリティ"
+    },
+    {
+      "id": 50,
+      "keyword": "セキュリティ対策",
+      "genre": "セキュリティ"
+    },
+    {
+      "id": 51,
+      "keyword": "標的型攻撃",
+      "genre": "セキュリティ"
+    },
+    {
+      "id": 52,
+      "keyword": "フィッシング",
+      "genre": "セキュリティ"
+    },
+    {
+      "id": 53,
+      "keyword": "不正アクセス",
+      "genre": "セキュリティ"
+    },
+    {
+      "id": 54,
+      "keyword": "マネジメント",
+      "genre": "マネジメント・組織"
+    },
+    {
+      "id": 55,
+      "keyword": "組織",
+      "genre": "マネジメント・組織"
+    },
+    {
+      "id": 56,
+      "keyword": "チーム",
+      "genre": "マネジメント・組織"
+    },
+    {
+      "id": 57,
+      "keyword": "組織力",
+      "genre": "マネジメント・組織"
+    },
+    {
+      "id": 58,
+      "keyword": "コミュニケーション",
+      "genre": "マネジメント・組織"
+    },
+    {
+      "id": 59,
+      "keyword": "心理的安全性",
+      "genre": "マネジメント・組織"
+    },
+    {
+      "id": 60,
+      "keyword": "プロジェクトマネジメント",
+      "genre": "マネジメント・組織"
+    },
+    {
+      "id": 61,
+      "keyword": "アジャイル",
+      "genre": "マネジメント・組織"
+    },
+    {
+      "id": 62,
+      "keyword": "スクラム",
+      "genre": "マネジメント・組織"
+    },
+    {
+      "id": 63,
+      "keyword": "カンバン",
+      "genre": "マネジメント・組織"
+    },
+    {
+      "id": 64,
+      "keyword": "リモート マネジメント",
+      "genre": "マネジメント・組織"
+    },
+    {
+      "id": 65,
+      "keyword": "1on1",
+      "genre": "マネジメント・組織"
+    },
+    {
+      "id": 66,
+      "keyword": "目標管理",
+      "genre": "マネジメント・組織"
+    },
+    {
+      "id": 67,
+      "keyword": "KPI",
+      "genre": "マネジメント・組織"
+    },
+    {
+      "id": 68,
+      "keyword": "OKR",
+      "genre": "マネジメント・組織"
+    },
+    {
+      "id": 69,
+      "keyword": "経営",
+      "genre": "マネジメント・組織"
+    },
+    {
+      "id": 70,
+      "keyword": "意思決定",
+      "genre": "マネジメント・組織"
+    },
+    {
+      "id": 71,
+      "keyword": "生産性",
+      "genre": "働き方・生産性"
+    },
+    {
+      "id": 72,
+      "keyword": "働き方",
+      "genre": "働き方・生産性"
+    },
+    {
+      "id": 73,
+      "keyword": "リモートワーク",
+      "genre": "働き方・生産性"
+    },
+    {
+      "id": 74,
+      "keyword": "ハイブリッドワーク",
+      "genre": "働き方・生産性"
+    },
+    {
+      "id": 75,
+      "keyword": "テレワーク",
+      "genre": "働き方・生産性"
+    },
+    {
+      "id": 76,
+      "keyword": "業務効率化",
+      "genre": "働き方・生産性"
+    },
+    {
+      "id": 77,
+      "keyword": "ワークライフバランス",
+      "genre": "働き方・生産性"
+    },
+    {
+      "id": 78,
+      "keyword": "在宅勤務",
+      "genre": "働き方・生産性"
+    },
+    {
+      "id": 79,
+      "keyword": "フレックス",
+      "genre": "働き方・生産性"
+    },
+    {
+      "id": 80,
+      "keyword": "ナレッジワーカー",
+      "genre": "働き方・生産性"
+    },
+    {
+      "id": 81,
+      "keyword": "タスク管理",
+      "genre": "働き方・生産性"
+    },
+    {
+      "id": 82,
+      "keyword": "時間管理",
+      "genre": "働き方・生産性"
+    },
+    {
+      "id": 83,
+      "keyword": "自動化",
+      "genre": "働き方・生産性"
+    },
+    {
+      "id": 84,
+      "keyword": "ペーパーレス",
+      "genre": "働き方・生産性"
+    },
+    {
+      "id": 85,
+      "keyword": "会議 効率化",
+      "genre": "働き方・生産性"
+    },
+    {
+      "id": 86,
+      "keyword": "ツール 活用",
+      "genre": "働き方・生産性"
+    },
+    {
+      "id": 87,
+      "keyword": "エンジニア キャリア",
+      "genre": "キャリア・スキル"
+    },
+    {
+      "id": 88,
+      "keyword": "スキルアップ",
+      "genre": "キャリア・スキル"
+    },
+    {
+      "id": 89,
+      "keyword": "プログラミング 学習",
+      "genre": "キャリア・スキル"
+    },
+    {
+      "id": 90,
+      "keyword": "IT資格",
+      "genre": "キャリア・スキル"
+    },
+    {
+      "id": 91,
+      "keyword": "研修",
+      "genre": "キャリア・スキル"
+    },
+    {
+      "id": 92,
+      "keyword": "人材育成",
+      "genre": "キャリア・スキル"
+    },
+    {
+      "id": 93,
+      "keyword": "テックリード",
+      "genre": "キャリア・スキル"
+    },
+    {
+      "id": 94,
+      "keyword": "エンジニア 採用",
+      "genre": "キャリア・スキル"
+    },
+    {
+      "id": 95,
+      "keyword": "OJT",
+      "genre": "キャリア・スキル"
+    },
+    {
+      "id": 96,
+      "keyword": "メンター",
+      "genre": "キャリア・スキル"
+    },
+    {
+      "id": 97,
+      "keyword": "リスキリング",
+      "genre": "キャリア・スキル"
+    },
+    {
+      "id": 98,
+      "keyword": "IT業界",
+      "genre": "業界・トレンド"
+    },
+    {
+      "id": 99,
+      "keyword": "スタートアップ",
+      "genre": "業界・トレンド"
+    },
+    {
+      "id": 100,
+      "keyword": "イノベーション",
+      "genre": "業界・トレンド"
+    },
+    {
+      "id": 101,
+      "keyword": "デジタル化",
+      "genre": "業界・トレンド"
+    },
+    {
+      "id": 102,
+      "keyword": "テクノロジー トレンド",
+      "genre": "業界・トレンド"
+    },
+    {
+      "id": 103,
+      "keyword": "市場動向",
+      "genre": "業界・トレンド"
+    },
+    {
+      "id": 104,
+      "keyword": "ガートナー",
+      "genre": "業界・トレンド"
+    },
+    {
+      "id": 105,
+      "keyword": "Forrester",
+      "genre": "業界・トレンド"
+    },
+    {
+      "id": 106,
+      "keyword": "ベンダー",
+      "genre": "業界・トレンド"
+    },
+    {
+      "id": 107,
+      "keyword": "エコシステム",
+      "genre": "業界・トレンド"
+    },
+    {
+      "id": 108,
+      "keyword": "オープンイノベーション",
+      "genre": "業界・トレンド"
+    },
+    {
+      "id": 109,
+      "keyword": "ニュース",
+      "genre": "その他"
+    },
+    {
+      "id": 110,
+      "keyword": "トレンド",
+      "genre": "その他"
+    },
+    {
+      "id": 111,
+      "keyword": "IT ニュース",
+      "genre": "その他"
+    },
+    {
+      "id": 112,
+      "keyword": "テクノロジー",
+      "genre": "その他"
+    }
+  ],
+  "schedule_keywords": [
+    {
+      "schedule_id": 2,
+      "keyword_id": 2
+    },
+    {
+      "schedule_id": 2,
+      "keyword_id": 38
+    },
+    {
+      "schedule_id": 2,
+      "keyword_id": 40
+    },
+    {
+      "schedule_id": 5,
+      "keyword_id": 5
+    },
+    {
+      "schedule_id": 5,
+      "keyword_id": 72
+    },
+    {
+      "schedule_id": 5,
+      "keyword_id": 73
+    },
+    {
+      "schedule_id": 1,
+      "keyword_id": 58
+    },
+    {
+      "schedule_id": 1,
+      "keyword_id": 54
+    },
+    {
+      "schedule_id": 1,
+      "keyword_id": 1
+    },
+    {
+      "schedule_id": 3,
+      "keyword_id": 56
+    },
+    {
+      "schedule_id": 3,
+      "keyword_id": 59
+    },
+    {
+      "schedule_id": 3,
+      "keyword_id": 3
+    },
+    {
+      "schedule_id": 4,
+      "keyword_id": 7
+    },
+    {
+      "schedule_id": 4,
+      "keyword_id": 6
+    },
+    {
+      "schedule_id": 4,
+      "keyword_id": 4
+    }
+  ],
+  "exclude_keywords": [
+    {
+      "id": 1,
+      "keyword": "転職"
+    },
+    {
+      "id": 2,
+      "keyword": "離職"
+    },
+    {
+      "id": 3,
+      "keyword": "退職"
+    },
+    {
+      "id": 4,
+      "keyword": "転職エージェント"
+    },
+    {
+      "id": 5,
+      "keyword": "転職サイト"
+    },
+    {
+      "id": 6,
+      "keyword": "スカウト"
+    },
+    {
+      "id": 7,
+      "keyword": "ヘッドハンティング"
+    }
+  ],
+  "delivery_logs": [
+    {
+      "schedule_id": 4,
+      "keyword_id": 4,
+      "message_count": 2
+    },
+    {
+      "schedule_id": 4,
+      "keyword_id": 4,
+      "message_count": 5
+    },
+    {
+      "schedule_id": 5,
+      "keyword_id": 5,
+      "message_count": 5
+    }
+  ],
+  "message_template": {
+    "title_format": "📰 {day} のニュース：「{keyword}」",
+    "delivery_date_label": "配信日時",
+    "item_order": [
+      "title",
+      "summary",
+      "meta",
+      "url"
+    ],
+    "article_separator": "[hr]",
+    "empty_message": "該当するニュースがありませんでした。"
+  }
+}
