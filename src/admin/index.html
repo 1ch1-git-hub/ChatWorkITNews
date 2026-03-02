@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChatWork IT News - 管理者画面</title>
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg-page: #1a1a2e;
+      --bg-card: #16213e;
+      --bg-input: #1a1a2e;
+      --border: #0f3460;
+      --text: #eee;
+      --text-muted: #a2a8d3;
+      --accent: #e94560;
+      --accent-hover: #ff6b6b;
+      --secondary-bg: #0f3460;
+      --secondary-hover: #16213e;
+      --danger: #c0392b;
+      --shadow: rgba(0,0,0,0.4);
+    }
+    body.theme-light {
+      --bg-page: #f0f2f5;
+      --bg-card: #fff;
+      --bg-input: #fff;
+      --border: #cbd5e0;
+      --text: #1a202c;
+      --text-muted: #4a5568;
+      --secondary-bg: #4a5568;
+      --secondary-hover: #2d3748;
+      --shadow: rgba(0,0,0,0.12);
+    }
+    body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 24px; background: var(--bg-page); color: var(--text); transition: background 0.2s, color 0.2s; }
+    h1 { font-size: 1.5rem; margin-bottom: 24px; color: var(--accent); background: linear-gradient(90deg, #e94560, #f39c12); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    h2 { font-size: 1.1rem; margin: 24px 0 12px; color: var(--text-muted); }
+    .card { background: var(--bg-card); border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid var(--border); transition: background 0.2s, border-color 0.2s; }
+    .form-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+    .form-row label { min-width: 80px; }
+    input, select, button { padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-input); color: var(--text); transition: background 0.2s, border-color 0.2s, color 0.2s; }
+    button { background: var(--accent); color: #fff; border: none; cursor: pointer; }
+    button:hover { background: var(--accent-hover); }
+    button.secondary { background: var(--secondary-bg); color: #fff; }
+    button.secondary:hover { background: var(--secondary-hover); }
+    button.danger { background: var(--danger); }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { color: var(--text-muted); font-weight: 600; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.85rem; background: var(--secondary-bg); }
+    .actions { display: flex; gap: 8px; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+    .modal-overlay.hidden { display: none; }
+    .modal-toast { background: var(--bg-card); border-radius: 12px; padding: 24px; min-width: 360px; max-width: 90vw; max-height: 85vh; overflow: auto; box-shadow: 0 8px 32px var(--shadow); border: 1px solid var(--border); transition: background 0.2s, border-color 0.2s; }
+    .modal-toast h3 { margin: 0 0 16px; color: var(--accent); font-size: 1.1rem; }
+    .modal-toast .form-group { margin-bottom: 14px; }
+    .modal-toast .form-group label { display: block; margin-bottom: 4px; color: var(--text-muted); font-size: 0.9rem; }
+    .modal-toast .form-group input, .modal-toast .form-group select { width: 100%; max-width: 320px; }
+    .modal-toast .keyword-checks { max-height: 220px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; background: var(--bg-input); display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 20px; }
+    .modal-toast .keyword-checks label { display: flex; align-items: center; gap: 10px; padding: 8px 10px; margin: 0; cursor: pointer; border-radius: 6px; background: var(--secondary-bg); color: var(--text); font-size: 0.95rem; line-height: 1.4; }
+    .modal-toast .keyword-checks label:hover { background: var(--secondary-hover); }
+    .modal-toast .keyword-checks input[type="checkbox"] { width: 18px; height: 18px; margin: 0; flex-shrink: 0; cursor: pointer; }
+    .modal-toast .modal-actions { margin-top: 20px; display: flex; gap: 10px; }
+    .genre-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .genre-tabs button { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg-input); color: var(--text-muted); cursor: pointer; font-size: 0.9rem; }
+    .genre-tabs button:hover { background: var(--secondary-bg); color: var(--text); }
+    .genre-tabs button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .keyword-genre-group { margin-bottom: 14px; grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px 16px; }
+    .keyword-genre-group .genre-head { grid-column: 1 / -1; font-size: 0.85rem; color: var(--accent); margin-bottom: 2px; font-weight: 600; }
+    .menu-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .menu-row button.menu-btn { padding: 12px 24px; font-size: 1rem; border-radius: 10px; }
+    .theme-toggle-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+    .theme-toggle-wrap span { color: var(--text-muted); font-size: 0.9rem; }
+    .theme-toggle { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg-card); cursor: pointer; color: var(--text); font-size: 0.9rem; }
+    .theme-toggle:hover { background: var(--secondary-hover); }
+  </style>
+</head>
+<body>
+
+  <div id="schedule-edit-modal" class="modal-overlay hidden" onclick="if(event.target===this)closeScheduleEditModal()">
+    <div class="modal-toast" onclick="event.stopPropagation()">
+      <h3>スケジュールを編集</h3>
+      <input type="hidden" id="edit-schedule-id">
+      <div class="form-group">
+        <label>曜日</label>
+        <select id="edit-schedule-day">
+          <option value="1">月曜日</option>
+          <option value="2">火曜日</option>
+          <option value="3">水曜日</option>
+          <option value="4">木曜日</option>
+          <option value="5">金曜日</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>時刻</label>
+        <div class="form-row">
+          <input type="number" id="edit-schedule-hour" min="0" max="23" value="9" placeholder="時" style="width:80px">
+          <input type="number" id="edit-schedule-minute" min="0" max="59" value="0" placeholder="分" style="width:80px">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>名前</label>
+        <input type="text" id="edit-schedule-name" placeholder="例: 月曜：リーダーシップ">
+      </div>
+      <div class="form-group">
+        <label>キーワード（配信するものを選択）</label>
+        <div id="edit-schedule-keywords" class="keyword-checks"></div>
+      </div>
+      <div class="modal-actions">
+        <button onclick="saveScheduleEdit()">保存</button>
+        <button class="secondary" onclick="closeScheduleEditModal()">キャンセル</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="keyword-edit-modal" class="modal-overlay hidden" onclick="if(event.target===this)closeKeywordEditModal()">
+    <div class="modal-toast" onclick="event.stopPropagation()">
+      <h3>キーワードを編集</h3>
+      <input type="hidden" id="edit-keyword-id">
+      <div class="form-group">
+        <label>ジャンル</label>
+        <select id="edit-keyword-genre"></select>
+      </div>
+      <div class="form-group">
+        <label>キーワード</label>
+        <input type="text" id="edit-keyword-value" placeholder="例: AI">
+      </div>
+      <div class="modal-actions">
+        <button onclick="saveKeywordEdit()">保存</button>
+        <button class="secondary" onclick="closeKeywordEditModal()">キャンセル</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="exclude-edit-modal" class="modal-overlay hidden" onclick="if(event.target===this)closeExcludeEditModal()">
+    <div class="modal-toast" onclick="event.stopPropagation()">
+      <h3>除外キーワードを編集</h3>
+      <input type="hidden" id="edit-exclude-id">
+      <div class="form-group">
+        <label>除外キーワード</label>
+        <input type="text" id="edit-exclude-value" placeholder="例: 転職">
+      </div>
+      <div class="modal-actions">
+        <button onclick="saveExcludeEdit()">保存</button>
+        <button class="secondary" onclick="closeExcludeEditModal()">キャンセル</button>
+      </div>
+    </div>
+  </div>
+  <div class="theme-toggle-wrap">
+    <h1 style="margin: 0; flex: 1;">📰 ChatWork IT News - 管理者画面</h1>
+    <span>テーマ:</span>
+    <button type="button" class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="ダーク/ライトを切り替え">
+      <span id="theme-icon">🌙</span> <span id="theme-label">ライトモードにする</span>
+    </button>
+  </div>
+  <p style="color: var(--text-muted); margin-top: 8px;">平日（月〜金）に指定した時刻・キーワードでニュースを検索し、Chatworkに配信します。</p>
+
+  <div class="card">
+    <h2>スケジュール（何曜日の何時に配信するか）</h2>
+    <div class="form-row" style="flex-wrap: wrap;">
+      <label>曜日</label>
+      <select id="schedule-day">
+        <option value="1">月曜日</option>
+        <option value="2">火曜日</option>
+        <option value="3">水曜日</option>
+        <option value="4">木曜日</option>
+        <option value="5">金曜日</option>
+      </select>
+      <label>時刻</label>
+      <input type="number" id="schedule-hour" min="0" max="23" value="9" placeholder="時">
+      <input type="number" id="schedule-minute" min="0" max="59" value="0" placeholder="分">
+      <label>名前</label>
+      <input type="text" id="schedule-name" placeholder="例: 朝のニュース">
+      <button onclick="addSchedule()">追加</button>
+      <button class="secondary" onclick="resetDefaultScheduleKeywords()">デフォルトの紐付けに戻す</button>
+    </div>
+    <p style="color: var(--text-muted); font-size: 0.9rem; margin: -8px 0 12px;">デフォルトは各曜日3キーワード（月: リーダーシップ・マネジメント・コミュニケーション など）</p>
+    <table>
+      <thead><tr><th>曜日</th><th>時刻</th><th>名前</th><th>キーワード</th><th></th></tr></thead>
+      <tbody id="schedule-list"></tbody>
+    </table>
+  </div>
+
+  <div id="schedule-explanation-modal" class="modal-overlay hidden" onclick="if(event.target===this)closeScheduleExplanationModal()">
+    <div class="modal-toast" onclick="event.stopPropagation()" style="max-width: 480px;">
+      <h3>配信の説明</h3>
+      <pre id="schedule-explanation-text" style="background: var(--secondary-bg); padding: 14px; border-radius: 8px; font-size: 0.9rem; white-space: pre-wrap; margin: 0; max-height: 60vh; overflow: auto;"></pre>
+      <div class="modal-actions">
+        <button class="secondary" onclick="closeScheduleExplanationModal()">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>メニュー</h2>
+    <div class="menu-row">
+      <button class="menu-btn" onclick="openKeywordsModal()">キーワード</button>
+      <button class="menu-btn secondary" onclick="openExcludeModal()">除外キーワード</button>
+      <button class="menu-btn secondary" onclick="openTestDeliveryModal()">テスト配信</button>
+      <button class="menu-btn secondary" onclick="openTemplateModal()">配信雛形</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>送信ログ</h2>
+    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 12px;">配信の実行結果を確認できます。ログが溜まったらクリアして軽く保てます。</p>
+    <div class="form-row" style="margin-bottom: 12px;">
+      <button onclick="loadDeliveryLog()">更新</button>
+      <button class="secondary" onclick="clearDeliveryLog()">ログをクリア</button>
+    </div>
+    <pre id="delivery-log-content" style="background: var(--secondary-bg); padding: 14px; border-radius: 8px; font-size: 0.85rem; overflow: auto; max-height: 320px; margin: 0; white-space: pre-wrap; word-break: break-all;">読み込み中...</pre>
+  </div>
+
+  <div id="keywords-modal" class="modal-overlay hidden" onclick="if(event.target===this)closeKeywordsModal()">
+    <div class="modal-toast" onclick="event.stopPropagation()" style="max-width: 700px; max-height: 85vh; display: flex; flex-direction: column;">
+      <h3>キーワード（ニュース検索用）</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 12px;">キーワードを追加するか、一覧で編集・削除できます。</p>
+      <div class="form-row" style="margin-bottom: 12px;">
+        <input type="text" id="keyword-input" placeholder="例: 人工知能">
+        <select id="keyword-genre-add">
+          <option value="その他">その他</option>
+        </select>
+        <button onclick="addKeyword()">追加</button>
+        <button class="secondary" onclick="seedDefaultKeywords()">デフォルトキーワードを一括追加</button>
+      </div>
+      <div id="genre-tabs-modal" class="genre-tabs"></div>
+      <div style="overflow: auto; flex: 1; min-height: 200px;">
+        <table>
+          <thead><tr><th>ジャンル</th><th>キーワード</th><th></th></tr></thead>
+          <tbody id="keyword-list-modal"></tbody>
+        </table>
+      </div>
+      <div class="modal-actions">
+        <button class="secondary" onclick="closeKeywordsModal()">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="exclude-modal" class="modal-overlay hidden" onclick="if(event.target===this)closeExcludeModal()">
+    <div class="modal-toast" onclick="event.stopPropagation()" style="max-width: 560px;">
+      <h3>除外キーワード（配信しないニュースの条件）</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 12px;">タイトル・概要にこれらのキーワードを含む記事は配信されません。転職・離職関連などを除外して社員向けに配信できます。</p>
+      <div class="form-row" style="margin-bottom: 12px;">
+        <input type="text" id="exclude-keyword-input" placeholder="例: 転職">
+        <button onclick="addExcludeKeyword()">追加</button>
+        <button class="secondary" onclick="addDefaultExcludeKeywords()">推奨を一括追加</button>
+      </div>
+      <div style="overflow: auto; max-height: 50vh;">
+        <table>
+          <thead><tr><th>除外キーワード</th><th></th></tr></thead>
+          <tbody id="exclude-keyword-list-modal"></tbody>
+        </table>
+      </div>
+      <div class="modal-actions">
+        <button class="secondary" onclick="closeExcludeModal()">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="test-delivery-modal" class="modal-overlay hidden" onclick="if(event.target===this)closeTestDeliveryModal()">
+    <div class="modal-toast" onclick="event.stopPropagation()" style="max-width: 440px;">
+      <h3>テスト配信</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 12px;">キーワードを入力してChatworkに送信テストを行います。</p>
+      <div class="form-row">
+        <input type="text" id="test-keyword" placeholder="キーワードを入力" style="flex:1; min-width: 160px;">
+        <button onclick="testDelivery()">送信テスト</button>
+      </div>
+      <div class="modal-actions">
+        <button class="secondary" onclick="closeTestDeliveryModal()">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="template-modal" class="modal-overlay hidden" onclick="if(event.target===this)closeTemplateModal()">
+    <div class="modal-toast" onclick="event.stopPropagation()" style="max-width: 560px;">
+      <h3>Chatwork 配信雛形</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 14px;">送信メッセージの見出し・文言・項目の並び順を変更できます。<br>{day}＝曜日（スケジュール配信時のみ）、{keyword}＝検索キーワード</p>
+      <div class="modal-toast .form-group" style="margin-bottom: 12px;">
+        <label style="display:block; margin-bottom: 4px; color: var(--text-muted); font-size: 0.9rem;">タイトル形式</label>
+        <input type="text" id="template-title-format" placeholder="例: 📰 {day} キーワード「{keyword}」の内容のニュース" style="width: 100%; max-width: 100%;">
+      </div>
+      <div class="modal-toast .form-group" style="margin-bottom: 12px;">
+        <label style="display:block; margin-bottom: 4px; color: var(--text-muted); font-size: 0.9rem;">配信日時のラベル</label>
+        <input type="text" id="template-delivery-date-label" placeholder="例: 配信日時" style="width: 100%; max-width: 320px;">
+      </div>
+      <div class="modal-toast .form-group" style="margin-bottom: 12px;">
+        <label style="display:block; margin-bottom: 6px; color: var(--text-muted); font-size: 0.9rem;">各記事の表示順（上から下の順で表示）</label>
+        <ul id="template-item-order" style="list-style: none; padding: 0; margin: 0; background: var(--secondary-bg); border-radius: 8px; padding: 8px;"></ul>
+      </div>
+      <div class="modal-toast .form-group" style="margin-bottom: 12px;">
+        <label style="display:block; margin-bottom: 4px; color: var(--text-muted); font-size: 0.9rem;">記事どうしの区切り</label>
+        <input type="text" id="template-article-separator" placeholder="例: [hr]" style="width: 100%; max-width: 200px;">
+      </div>
+      <div class="modal-toast .form-group" style="margin-bottom: 14px;">
+        <label style="display:block; margin-bottom: 4px; color: var(--text-muted); font-size: 0.9rem;">ニュース0件時のメッセージ</label>
+        <input type="text" id="template-empty-message" placeholder="例: 該当するニュースがありませんでした。" style="width: 100%; max-width: 100%;">
+      </div>
+      <div class="modal-actions">
+        <button onclick="saveTemplate()">保存</button>
+        <button class="secondary" onclick="closeTemplateModal()">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function applySavedTheme() {
+      if (localStorage.getItem('admin-theme') === 'light') document.body.classList.add('theme-light');
+    })();
+    function toggleTheme() {
+      const isLight = document.body.classList.toggle('theme-light');
+      localStorage.setItem('admin-theme', isLight ? 'light' : 'dark');
+      const icon = document.getElementById('theme-icon');
+      const label = document.getElementById('theme-label');
+      if (icon) icon.textContent = isLight ? '☀️' : '🌙';
+      if (label) label.textContent = isLight ? 'ダークモードにする' : 'ライトモードにする';
+    }
+    (function setThemeLabel() {
+      const isLight = document.body.classList.contains('theme-light');
+      const icon = document.getElementById('theme-icon');
+      const label = document.getElementById('theme-label');
+      if (icon) icon.textContent = isLight ? '☀️' : '🌙';
+      if (label) label.textContent = isLight ? 'ダークモードにする' : 'ライトモードにする';
+    })();
+
+    // 管理画面と同じオリジン（/api は admin-server がメインAPIへプロキシ）
+    const API = '/api';
+    const DAYS = { 0: '日', 1: '月', 2: '火', 3: '水', 4: '木', 5: '金', 6: '土' };
+
+    async function fetchApi(path, opts = {}) {
+      const headers = { ...opts.headers };
+      if (opts.body !== undefined) headers['Content-Type'] = 'application/json';
+      const res = await fetch(API + path, { ...opts, headers });
+      const text = await res.text();
+      if (!res.ok) {
+        let msg = text;
+        try { const j = JSON.parse(text); if (j.error) msg = j.error; } catch (_) {}
+        if (msg.includes('<!DOCTYPE') || msg.includes('<html')) msg = 'APIサーバーに接続できません。npm start で起動していますか？';
+        throw new Error(msg);
+      }
+      return text ? JSON.parse(text) : {};
+    }
+
+    async function loadSchedules() {
+      const list = await fetchApi('/schedules');
+      const tbody = document.getElementById('schedule-list');
+      const kwPromises = list.map((s) => fetchApi('/schedules/' + s.id + '/keywords'));
+      const kwResults = await Promise.all(kwPromises);
+      tbody.innerHTML = list.map((s, i) => {
+        const day = DAYS[s.day_of_week] || s.day_of_week;
+        const time = `${String(s.hour).padStart(2, '0')}:${String(s.minute).padStart(2, '0')}`;
+        const keywords = (kwResults[i] || []).map((k) => k.keyword).join('、') || '—';
+        const keywordsEsc = (keywords !== '—' ? keywords : '').replace(/"/g, '&quot;');
+        const nameEsc = (s.name || '').replace(/"/g, '&quot;');
+        return `<tr data-schedule-id="${s.id}" data-day="${s.day_of_week}" data-hour="${s.hour}" data-minute="${s.minute}" data-name="${nameEsc}" data-keywords="${keywordsEsc}">
+          <td>${day}曜日</td>
+          <td>${time}</td>
+          <td>${s.name || '-'}</td>
+          <td><span style="color:var(--text-muted);font-size:0.9em">${keywords}</span></td>
+          <td><button class="secondary" onclick="showScheduleExplanation(this)">説明</button> <button class="secondary" onclick="editScheduleFromRow(this)">編集</button> <button class="danger" onclick="delSchedule(${s.id})">削除</button></td>
+        </tr>`;
+      }).join('') || '<tr><td colspan="5">スケジュールがありません</td></tr>';
+    }
+
+    let currentGenreFilter = '';
+
+    async function loadGenres() {
+      const genres = await fetchApi('/genres');
+      const addSelect = document.getElementById('keyword-genre-add');
+      addSelect.innerHTML = genres.map((g) => `<option value="${g}">${g}</option>`).join('');
+      const editSelect = document.getElementById('edit-keyword-genre');
+      editSelect.innerHTML = genres.map((g) => `<option value="${g}">${g}</option>`).join('');
+    }
+
+    async function loadKeywordsInModal() {
+      const url = currentGenreFilter ? '/keywords?genre=' + encodeURIComponent(currentGenreFilter) : '/keywords';
+      const list = await fetchApi(url);
+      const tbody = document.getElementById('keyword-list-modal');
+      if (!tbody) return;
+      tbody.innerHTML = list.map((k) => {
+        const kwEsc = (k.keyword || '').replace(/"/g, '&quot;');
+        const genre = k.genre || 'その他';
+        return `<tr data-kw-id="${k.id}" data-kw="${kwEsc}" data-kw-genre="${genre}"><td>${genre}</td><td>${k.keyword}</td><td><button class="secondary" onclick="editKeywordFromRow(this)">編集</button> <button class="danger" onclick="delKeyword(${k.id})">削除</button></td></tr>`;
+      }).join('') || '<tr><td colspan="3">キーワードがありません</td></tr>';
+    }
+
+    async function openKeywordsModal() {
+      const genres = await fetchApi('/genres');
+      const tabsEl = document.getElementById('genre-tabs-modal');
+      tabsEl.innerHTML = '<button class="genre-tab active" data-genre="">すべて</button>' +
+        genres.map((g) => `<button class="genre-tab" data-genre="${g}">${g}</button>`).join('');
+      currentGenreFilter = '';
+      tabsEl.querySelectorAll('.genre-tab').forEach((btn) => {
+        btn.onclick = () => {
+          tabsEl.querySelectorAll('.genre-tab').forEach((b) => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentGenreFilter = btn.dataset.genre || '';
+          loadKeywordsInModal();
+        };
+      });
+      await loadKeywordsInModal();
+      document.getElementById('keywords-modal').classList.remove('hidden');
+    }
+
+    function closeKeywordsModal() {
+      document.getElementById('keywords-modal').classList.add('hidden');
+    }
+
+    function openExcludeModal() {
+      document.getElementById('exclude-modal').classList.remove('hidden');
+      loadExcludeKeywordsInModal();
+    }
+    function closeExcludeModal() {
+      document.getElementById('exclude-modal').classList.add('hidden');
+    }
+    async function loadExcludeKeywordsInModal() {
+      const list = await fetchApi('/exclude-keywords');
+      const tbody = document.getElementById('exclude-keyword-list-modal');
+      tbody.innerHTML = list.map((k) => {
+        const kwEsc = (k.keyword || '').replace(/"/g, '&quot;');
+        return `<tr data-ex-id="${k.id}" data-ex-kw="${kwEsc}"><td>${k.keyword}</td><td><button class="secondary" onclick="editExcludeKeywordFromRow(this)">編集</button> <button class="danger" onclick="delExcludeKeyword(${k.id})">削除</button></td></tr>`;
+      }).join('') || '<tr><td colspan="2">除外キーワードがありません</td></tr>';
+    }
+
+    async function addExcludeKeyword() {
+      const v = document.getElementById('exclude-keyword-input').value.trim();
+      if (!v) return;
+      await fetchApi('/exclude-keywords', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ keyword: v })
+      });
+      document.getElementById('exclude-keyword-input').value = '';
+      if (!document.getElementById('exclude-modal').classList.contains('hidden')) loadExcludeKeywordsInModal();
+    }
+
+    function editExcludeKeywordFromRow(btn) {
+      const tr = btn.closest('tr');
+      const id = tr.dataset.exId;
+      const current = (tr.dataset.exKw || '').replace(/&quot;/g, '"');
+      document.getElementById('edit-exclude-id').value = id;
+      document.getElementById('edit-exclude-value').value = current;
+      document.getElementById('exclude-edit-modal').classList.remove('hidden');
+    }
+
+    function closeExcludeEditModal() {
+      document.getElementById('exclude-edit-modal').classList.add('hidden');
+    }
+
+    async function saveExcludeEdit() {
+      const id = document.getElementById('edit-exclude-id').value;
+      const v = document.getElementById('edit-exclude-value').value.trim();
+      if (!v) { alert('除外キーワードを入力してください'); return; }
+      try {
+        await fetchApi('/exclude-keywords/' + id, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ keyword: v }) });
+        closeExcludeEditModal();
+        loadExcludeKeywordsInModal();
+      } catch (e) { alert('エラー: ' + e.message); }
+    }
+
+    async function delExcludeKeyword(id) {
+      if (!confirm('この除外キーワードを削除しますか？')) return;
+      await fetchApi('/exclude-keywords/' + id, { method: 'DELETE' });
+      loadExcludeKeywordsInModal();
+    }
+
+    async function seedDefaultKeywords() {
+      try {
+        const r = await fetchApi('/seed-default-keywords', { method: 'POST' });
+        await loadGenres();
+        if (!document.getElementById('keywords-modal').classList.contains('hidden')) loadKeywordsInModal();
+        alert(r.added ? `${r.added}件のキーワードを追加しました` : '追加するキーワードはありません（既に登録済みです）');
+      } catch (e) { alert('エラー: ' + e.message); }
+    }
+
+    async function addDefaultExcludeKeywords() {
+      const defaults = ['転職', '離職', '退職', '転職エージェント', '転職サイト', 'スカウト', 'ヘッドハンティング'];
+      for (const kw of defaults) {
+        try {
+          await fetchApi('/exclude-keywords', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ keyword: kw })
+          });
+        } catch (_) {}
+      }
+      if (!document.getElementById('exclude-modal').classList.contains('hidden')) loadExcludeKeywordsInModal();
+      alert('推奨の除外キーワードを追加しました');
+    }
+
+    async function addSchedule() {
+      const day = +document.getElementById('schedule-day').value;
+      const hour = +document.getElementById('schedule-hour').value;
+      const minute = +document.getElementById('schedule-minute').value;
+      const name = document.getElementById('schedule-name').value.trim();
+      await fetchApi('/schedules', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ day_of_week: day, hour, minute, name })
+      });
+      loadSchedules();
+    }
+
+    async function resetDefaultScheduleKeywords() {
+      if (!confirm('各曜日のキーワード紐付けをデフォルト（各3キーワード）に戻しますか？\n※デフォルトキーワードが未登録の場合は、先に「キーワード」→「デフォルトキーワードを一括追加」を実行してください。')) return;
+      try {
+        await fetchApi('/reset-default-schedule-keywords', { method: 'POST' });
+        loadSchedules();
+        alert('デフォルトの紐付けに戻しました。');
+      } catch (e) {
+        alert('エラー: ' + e.message);
+      }
+    }
+
+    async function editScheduleFromRow(btn) {
+      const tr = btn.closest('tr');
+      const id = tr.dataset.scheduleId;
+      const day = tr.dataset.day;
+      const hour = tr.dataset.hour;
+      const minute = tr.dataset.minute;
+      const name = (tr.dataset.name || '').replace(/&quot;/g, '"');
+      document.getElementById('edit-schedule-id').value = id;
+      document.getElementById('edit-schedule-day').value = day;
+      document.getElementById('edit-schedule-hour').value = hour;
+      document.getElementById('edit-schedule-minute').value = minute;
+      document.getElementById('edit-schedule-name').value = name;
+      const allKeywords = await fetchApi('/keywords');
+      const linked = await fetchApi('/schedules/' + id + '/keywords');
+      const linkedIds = new Set(linked.map((k) => k.id));
+      const container = document.getElementById('edit-schedule-keywords');
+      if (!allKeywords.length) {
+        container.innerHTML = '<p style="color:var(--text-muted)">キーワードを先に追加してください</p>';
+      } else {
+        const byGenre = {};
+        allKeywords.forEach((k) => {
+          const g = k.genre || 'その他';
+          if (!byGenre[g]) byGenre[g] = [];
+          byGenre[g].push(k);
+        });
+        const genreOrder = await fetchApi('/genres');
+        const genreKeys = [...new Set([...genreOrder, ...Object.keys(byGenre)])];
+        container.innerHTML = genreKeys.map((g) => {
+          const kws = byGenre[g] || [];
+          if (!kws.length) return '';
+          const labels = kws.map((k) => `<label><input type="checkbox" value="${k.id}" ${linkedIds.has(k.id) ? 'checked' : ''}> ${k.keyword}</label>`).join('');
+          return `<div class="keyword-genre-group"><div class="genre-head">${g}</div>${labels}</div>`;
+        }).filter(Boolean).join('');
+      }
+      document.getElementById('schedule-edit-modal').classList.remove('hidden');
+    }
+
+    function closeScheduleEditModal() {
+      document.getElementById('schedule-edit-modal').classList.add('hidden');
+    }
+
+    async function saveScheduleEdit() {
+      const id = document.getElementById('edit-schedule-id').value;
+      const day = +document.getElementById('edit-schedule-day').value;
+      const hour = +document.getElementById('edit-schedule-hour').value;
+      const minute = +document.getElementById('edit-schedule-minute').value;
+      const name = document.getElementById('edit-schedule-name').value.trim();
+      try {
+        await fetchApi('/schedules/' + id, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ day_of_week: day, hour, minute, name })
+        });
+        const ids = [...document.querySelectorAll('#edit-schedule-keywords input:checked')].map((c) => +c.value);
+        await fetchApi('/schedules/' + id + '/keywords', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ keyword_ids: ids })
+        });
+        closeScheduleEditModal();
+        loadSchedules();
+      } catch (e) { alert('エラー: ' + e.message); }
+    }
+
+    async function delSchedule(id) {
+      if (!confirm('削除しますか？')) return;
+      await fetchApi('/schedules/' + id, { method: 'DELETE' });
+      loadSchedules();
+    }
+
+    function showScheduleExplanation(btn) {
+      const tr = btn.closest('tr');
+      const dayNum = parseInt(tr.dataset.day, 10);
+      const dayName = DAYS[dayNum] || dayNum;
+      const hour = tr.dataset.hour || '9';
+      const minute = tr.dataset.minute || '0';
+      const timeStr = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+      const name = (tr.dataset.name || '').replace(/&quot;/g, '"').trim() || '（名前なし）';
+      const keywords = (tr.dataset.keywords || '').replace(/&quot;/g, '"').trim();
+      const lines = [
+        `【${name}】`,
+        '',
+        `毎週${dayName}曜日 ${timeStr} に配信されます。`,
+        '',
+        keywords ? `使用キーワード: ${keywords}` : '使用キーワード: （未設定）',
+        '',
+        keywords
+          ? '上記キーワードでニュースを検索し、該当記事をChatworkのルームに配信します。'
+          : 'キーワードを編集から設定すると、そのキーワードでニュースを検索してChatworkに配信します。',
+      ];
+      document.getElementById('schedule-explanation-text').textContent = lines.join('\n');
+      document.getElementById('schedule-explanation-modal').classList.remove('hidden');
+    }
+    function closeScheduleExplanationModal() {
+      document.getElementById('schedule-explanation-modal').classList.add('hidden');
+    }
+
+    async function addKeyword() {
+      const v = document.getElementById('keyword-input').value.trim();
+      if (!v) return;
+      const genre = document.getElementById('keyword-genre-add').value || 'その他';
+      await fetchApi('/keywords', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ keyword: v, genre })
+      });
+      document.getElementById('keyword-input').value = '';
+      loadGenres();
+      if (!document.getElementById('keywords-modal').classList.contains('hidden')) loadKeywordsInModal();
+    }
+
+    function editKeywordFromRow(btn) {
+      const tr = btn.closest('tr');
+      const id = tr.dataset.kwId;
+      const current = (tr.dataset.kw || '').replace(/&quot;/g, '"');
+      const genre = tr.dataset.kwGenre || 'その他';
+      document.getElementById('edit-keyword-id').value = id;
+      document.getElementById('edit-keyword-value').value = current;
+      document.getElementById('edit-keyword-genre').value = genre;
+      document.getElementById('keyword-edit-modal').classList.remove('hidden');
+    }
+
+    function closeKeywordEditModal() {
+      document.getElementById('keyword-edit-modal').classList.add('hidden');
+    }
+
+    async function saveKeywordEdit() {
+      const id = document.getElementById('edit-keyword-id').value;
+      const v = document.getElementById('edit-keyword-value').value.trim();
+      const genre = document.getElementById('edit-keyword-genre').value || 'その他';
+      if (!v) { alert('キーワードを入力してください'); return; }
+      try {
+        await fetchApi('/keywords/' + id, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ keyword: v, genre }) });
+        closeKeywordEditModal();
+        loadKeywordsInModal();
+        loadSchedules();
+      } catch (e) { alert('エラー: ' + e.message); }
+    }
+
+    async function delKeyword(id) {
+      if (!confirm('削除しますか？')) return;
+      await fetchApi('/keywords/' + id, { method: 'DELETE' });
+      loadKeywordsInModal();
+      loadSchedules();
+    }
+
+    function openTestDeliveryModal() {
+      document.getElementById('test-delivery-modal').classList.remove('hidden');
+      document.getElementById('test-keyword').value = '';
+      document.getElementById('test-keyword').focus();
+    }
+    function closeTestDeliveryModal() {
+      document.getElementById('test-delivery-modal').classList.add('hidden');
+    }
+    async function testDelivery() {
+      const keyword = document.getElementById('test-keyword').value.trim();
+      if (!keyword) { alert('キーワードを入力してください'); return; }
+      try {
+        const result = await fetchApi('/test-delivery', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ keyword })
+        });
+        alert('Chatworkに送信しました（' + (result.count ?? 0) + '件）');
+        closeTestDeliveryModal();
+        loadDeliveryLog();
+      } catch (e) {
+        alert('エラー: ' + e.message);
+      }
+    }
+
+    async function loadDeliveryLog() {
+      const el = document.getElementById('delivery-log-content');
+      try {
+        const r = await fetchApi('/delivery-log');
+        el.textContent = (r.log && r.log.trim()) ? r.log.trim() : '（ログはまだありません）';
+      } catch (e) {
+        const msg = e.message && (e.message.includes('<!DOCTYPE') || e.message.includes('<html')) ? '送信ログを取得できません。APIサーバー（npm start）が起動しているか確認してください。' : e.message;
+        el.textContent = '読み込みエラー: ' + msg;
+      }
+    }
+    async function clearDeliveryLog() {
+      if (!confirm('送信ログをクリアしますか？')) return;
+      try {
+        await fetchApi('/delivery-log/clear', { method: 'POST' });
+        await loadDeliveryLog();
+      } catch (e) {
+        alert('エラー: ' + e.message);
+      }
+    }
+
+    const TEMPLATE_ITEM_LABELS = { title: 'タイトル', summary: '概要', meta: '日付・ソース', url: 'URL' };
+    let templateItemOrder = ['title', 'summary', 'meta', 'url'];
+
+    function renderTemplateItemOrder() {
+      const ul = document.getElementById('template-item-order');
+      ul.innerHTML = templateItemOrder.map((key, i) => {
+        const up = i > 0 ? `<button type="button" class="secondary" onclick="moveTemplateItem(${i}, -1)" style="padding:4px 8px;">↑</button>` : '';
+        const down = i < templateItemOrder.length - 1 ? `<button type="button" class="secondary" onclick="moveTemplateItem(${i}, 1)" style="padding:4px 8px;">↓</button>` : '';
+        return `<li style="display:flex; align-items:center; gap:8px; padding:6px 0; border-bottom:1px solid var(--border);"><span style="flex:1">${TEMPLATE_ITEM_LABELS[key] || key}</span> ${up} ${down}</li>`;
+      }).join('');
+    }
+    function moveTemplateItem(index, delta) {
+      const j = index + delta;
+      if (j < 0 || j >= templateItemOrder.length) return;
+      [templateItemOrder[index], templateItemOrder[j]] = [templateItemOrder[j], templateItemOrder[index]];
+      renderTemplateItemOrder();
+    }
+
+    async function openTemplateModal() {
+      try {
+        const t = await fetchApi('/message-template');
+        document.getElementById('template-title-format').value = t.title_format || '📰 {day} キーワード「{keyword}」の内容のニュース';
+        document.getElementById('template-delivery-date-label').value = t.delivery_date_label || '';
+        document.getElementById('template-article-separator').value = t.article_separator || '';
+        document.getElementById('template-empty-message').value = t.empty_message || '';
+        templateItemOrder = Array.isArray(t.item_order) && t.item_order.length ? [...t.item_order] : ['title', 'summary', 'meta', 'url'];
+        renderTemplateItemOrder();
+        document.getElementById('template-modal').classList.remove('hidden');
+      } catch (e) {
+        alert('雛形の取得に失敗しました: ' + e.message);
+      }
+    }
+    function closeTemplateModal() {
+      document.getElementById('template-modal').classList.add('hidden');
+    }
+    async function saveTemplate() {
+      const title_format = document.getElementById('template-title-format').value.trim() || '📰 キーワード「{keyword}」のニュース';
+      const delivery_date_label = document.getElementById('template-delivery-date-label').value.trim() || '配信日時';
+      const article_separator = document.getElementById('template-article-separator').value.trim() || '[hr]';
+      const empty_message = document.getElementById('template-empty-message').value.trim() || '該当するニュースがありませんでした。';
+      try {
+        await fetchApi('/message-template', {
+          method: 'PUT',
+          body: JSON.stringify({
+            title_format,
+            delivery_date_label,
+            item_order: templateItemOrder,
+            article_separator,
+            empty_message
+          })
+        });
+        alert('配信雛形を保存しました。');
+        closeTemplateModal();
+      } catch (e) {
+        alert('保存に失敗しました: ' + e.message);
+      }
+    }
+
+    loadGenres();
+    loadSchedules();
+    loadDeliveryLog();
+  </script>
+</body>
+</html>

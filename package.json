@@ -1,0 +1,26 @@
+{
+  "name": "chatwork-it-news",
+  "version": "1.0.0",
+  "description": "平日にキーワードベースでニュースを検索し、Chatworkルームに配信するサービス",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "admin": "node src/admin-server.js"
+  },
+  "keywords": [
+    "chatwork",
+    "news",
+    "scheduler"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "node-cron": "^3.0.3",
+    "node-fetch": "^3.3.2",
+    "rss-parser": "^3.13.0"
+  }
+}
