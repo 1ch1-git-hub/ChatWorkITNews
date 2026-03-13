@@ -40,12 +40,12 @@ async function main() {
     process.exit(0);
   }
 
-  const schedules = store.schedules.filter(
-    (s) => s.day_of_week === day && s.hour === hour && s.minute === minute
-  );
+  // GitHub Actionsのスケジュール実行は遅延することがあるため、
+  // 曜日のみをチェックし、時刻は問わない
+  const schedules = store.schedules.filter((s) => s.day_of_week === day);
 
   if (schedules.length === 0) {
-    appendLog('この時刻に一致するスケジュールはありません');
+    appendLog('この曜日に一致するスケジュールはありません');
     process.exit(0);
   }
 
